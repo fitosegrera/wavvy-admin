@@ -8,7 +8,7 @@ let connectionTimer: NodeJS.Timeout | null = null;
 
 const connect = () => {
 	if (browser) {
-		socket = new WebSocket('ws://' + PUBLIC_SOCKET_SERVER_URL);
+		socket = new WebSocket('wss://' + PUBLIC_SOCKET_SERVER_URL);
 
 		// Connection opened
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,6 +28,7 @@ const connect = () => {
 
 		// Listen for messages
 		socket.addEventListener('message', (event) => {
+			console.log('Message from server ', JSON.parse(event.data));
 			messageStore.set(event.data);
 		});
 
