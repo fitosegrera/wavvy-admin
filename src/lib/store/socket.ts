@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
+import { PUBLIC_SOCKET_SERVER_URL } from '$env/static/public';
 
 const messageStore = writable<string>('');
 let socket: WebSocket;
@@ -7,7 +8,7 @@ let connectionTimer: NodeJS.Timeout | null = null;
 
 const connect = () => {
 	if (browser) {
-		socket = new WebSocket('ws://localhost:3000/');
+		socket = new WebSocket('ws://' + PUBLIC_SOCKET_SERVER_URL);
 
 		// Connection opened
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
