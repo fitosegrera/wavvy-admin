@@ -26,7 +26,7 @@
 	let isOpen: boolean = false;
 	let hourlyRate = 0;
 	let discountRate = 0;
-	let response: string = '';
+	let response: MessageInterface;
 	let pingLoading: boolean = false;
 	let key: keyof UnlockLoadingInterface = 'p1';
 	let variant: StatusType;
@@ -49,31 +49,28 @@
 		hourlyRate = $realtimeStation?.marketing?.hourlyRate;
 		discountRate = $realtimeStation?.marketing?.discountRate;
 
-		socket.subscribe((currentMessage) => {
-			response = currentMessage;
-			if (response.length > 0) {
-				const resObject = JSON.parse(response);
-				if (resObject.action === 'pong') {
-					// console.log('pong');
-					pingLoading = false;
-					$snackbarStore = {
-						open: true,
-						message: 'Pong received! Station is online.',
-						variant: 'success',
-						action: closeSnackbar() as unknown as () => void
-					};
-				}
-				if (resObject.action === 'unlocked') {
-					// console.log('unlocked', resObject.id);
-					key = resObject.id as keyof UnlockLoadingInterface;
-					unlockLoading[key] = false;
-					$snackbarStore = {
-						open: true,
-						message: `Paddle ${key} unlocked!`,
-						variant: 'success',
-						action: closeSnackbar() as unknown as () => void
-					};
-				}
+		socket.subscribe((currentMessage: MessageInterface) => {
+			const resObject = currentMessage;
+			if (resObject.action === 'pong') {
+				// console.log('pong');
+				pingLoading = false;
+				$snackbarStore = {
+					open: true,
+					message: 'Pong received! Station is online.',
+					variant: 'success',
+					action: closeSnackbar() as unknown as () => void
+				};
+			}
+			if (resObject.action === 'unlocked') {
+				// console.log('unlocked', resObject.id);
+				key = resObject.id as keyof UnlockLoadingInterface;
+				unlockLoading[key] = false;
+				$snackbarStore = {
+					open: true,
+					message: `Paddle ${key} unlocked!`,
+					variant: 'success',
+					action: closeSnackbar() as unknown as () => void
+				};
 			}
 		});
 	});
@@ -87,7 +84,7 @@
 			action: 'ping',
 			connection: null
 		};
-		socket.sendMessage(JSON.stringify(data));
+		socket.sendMessage(data);
 	};
 
 	const handleUnlock = (id: string) => {
@@ -108,7 +105,7 @@
 							action: 'unlock',
 							connection: null
 						};
-						socket.sendMessage(JSON.stringify(data));
+						socket.sendMessage(data);
 						$modalStore = {
 							...$modalStore,
 							open: false

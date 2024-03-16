@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { stationId } from '$lib/store/realtimeDb';
+	import socket from '$lib/store/socket';
 
 	onMount(() => {
 		$stationId = 'carey-beach';

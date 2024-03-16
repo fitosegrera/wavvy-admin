@@ -25,9 +25,9 @@ export interface ConnectionsStatusInterface {
 }
 
 export interface MessageInterface {
-	from: ClientsType;
-	to: ClientsType;
+	from: ClientsType | null;
+	to: ClientsType | null;
 	id: string | null;
-	action: ActionsType;
+	action: ActionsType | null;
 	connection: ConnectionsStatusInterface | null;
 }

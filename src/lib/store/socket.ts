@@ -1,55 +1,49 @@
 import { browser } from '$app/environment';
+import * as io from 'socket.io-client';
 import { writable } from 'svelte/store';
-import { PUBLIC_SOCKET_SERVER_URL } from '$env/static/public';
+import type { MessageInterface } from '$lib/types/network';
 
-const messageStore = writable<string>('');
-let socket: WebSocket;
-const connectionTimer: NodeJS.Timeout | null = null;
+let socket: io.Socket;
+let connected = false;
+const messageStore = writable<MessageInterface>({
+	from: null,
+	to: null,
+	id: null,
+	action: null,
+	connection: null
+});
 
 const connect = () => {
 	if (browser) {
-		socket = new WebSocket('ws://' + PUBLIC_SOCKET_SERVER_URL);
+		socket = io.connect('https://locks.wavvysup.com');
 
 		// Connection opened
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		socket.addEventListener('open', (event: Event) => {
-			// console.log("It's open");
-			if (connectionTimer) clearInterval(connectionTimer);
+		socket.on('connect', () => {
+			console.log("It's open");
+			connected = true;
 		});
 
 		// Connection closed
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		socket.addEventListener('close', (event: CloseEvent) => {
+		socket.on('disconnect', () => {
 			console.log("It's closed");
-			// connectionTimer = setInterval(() => {
-			// 	connect();
-			// }, 3000);
 		});
 
 		// Listen for messages
-		socket.addEventListener('message', (event) => {
-			console.log('Message from server ', JSON.parse(event.data));
-			messageStore.set(event.data);
+		socket.on('message', (msg: MessageInterface) => {
+			console.log('Message from server ', msg);
+			messageStore.set(msg);
 		});
-
-		return () => {
-			socket.removeEventListener('open', () => {});
-			socket.removeEventListener('close', () => {});
-			socket.removeEventListener('message', () => {});
-			// socket.close();
-		};
 	}
 };
 
 connect();
 
-const sendMessage = (message: string) => {
-	if (socket.readyState <= 1) {
-		socket.send(message);
-	}
+const sendMessage = (message: MessageInterface) => {
+	socket.emit('message', message);
 };
 
 export default {
 	subscribe: messageStore.subscribe,
-	sendMessage
+	sendMessage,
+	connected
 };
