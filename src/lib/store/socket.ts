@@ -4,11 +4,11 @@ import { PUBLIC_SOCKET_SERVER_URL } from '$env/static/public';
 
 const messageStore = writable<string>('');
 let socket: WebSocket;
-let connectionTimer: NodeJS.Timeout | null = null;
+const connectionTimer: NodeJS.Timeout | null = null;
 
 const connect = () => {
 	if (browser) {
-		socket = new WebSocket('wss://' + PUBLIC_SOCKET_SERVER_URL);
+		socket = new WebSocket('ws://' + PUBLIC_SOCKET_SERVER_URL);
 
 		// Connection opened
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -20,10 +20,10 @@ const connect = () => {
 		// Connection closed
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		socket.addEventListener('close', (event: CloseEvent) => {
-			// console.log("It's closed");
-			connectionTimer = setInterval(() => {
-				connect();
-			}, 3000);
+			console.log("It's closed");
+			// connectionTimer = setInterval(() => {
+			// 	connect();
+			// }, 3000);
 		});
 
 		// Listen for messages

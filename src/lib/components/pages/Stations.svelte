@@ -32,9 +32,10 @@
 			response = currentMessage;
 			if (response.length > 0) {
 				const resObject = JSON.parse(response);
+				console.log('resObject', resObject);
 				if (resObject.connection) {
 					const key = PUBLIC_STATION_ORIGIN;
-					// console.log('resObject.connection', resObject.connection[key]);
+					console.log('resObject.connection', resObject.connection[key]);
 					station.status = resObject.connection[key].connected
 						? 'online'
 						: 'offline';

@@ -82,7 +82,7 @@
 		pingLoading = true;
 		const data: MessageInterface = {
 			from: 'admin',
-			to: 'station',
+			to: 'server',
 			id: null,
 			action: 'ping',
 			connection: null
