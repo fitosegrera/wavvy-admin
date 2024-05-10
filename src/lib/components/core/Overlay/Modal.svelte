@@ -8,37 +8,52 @@
 
 <FlexBox
 	intent="flexColCenter"
-	class="w-full fixed z-[100] bg-black/60 backdrop-blur-sm top-0 left-0 h-full"
->
+	class="fixed left-0 top-0 z-[100] h-full w-full bg-black/60 backdrop-blur-sm">
 	<div
 		transition:fly={{
 			y: 400,
 			duration: 200
-		}}
-	>
-		<FlexBox intent="flexColCenter" class="rounded-2xl shadow-lg bg-surface mx-[24px]">
-			<FlexBox px="small" py="small" intent="flexRowRight" class="">
+		}}>
+		<FlexBox
+			intent="flexColCenter"
+			class="mx-[24px] rounded-2xl bg-surface shadow-lg">
+			<FlexBox
+				px="small"
+				py="small"
+				intent="flexRowRight"
+				class="">
 				<button
 					class="text-on-surface-light/80"
 					on:click={() => {
 						$modalStore.onClose ? $modalStore.onClose() : closeModal();
-					}}
-				>
+					}}>
 					<Icon icon="material-symbols:close" />
 				</button>
 			</FlexBox>
-			<FlexBox intent="flexColCenter" gap="small" class="pb-[8px] w-full">
-				<Text intent="h4" class="text-center px-[24px]">{$modalStore.title}</Text>
-				<Text intent="p1" class="text-center px-[24px]">{$modalStore.content}</Text>
-				<FlexBox class="w-full mt-[16px]">
-					<div class="h-[2px] w-full bg-on-surface-dark/50" />
+			<FlexBox
+				intent="flexColCenter"
+				gap="small"
+				class="w-full pb-[8px]">
+				<Text
+					intent="h4"
+					class="px-[24px] text-center">
+					{$modalStore.title}
+				</Text>
+				<Text
+					intent="p1"
+					class="px-[24px] text-center">
+					{$modalStore.content}
+				</Text>
+				<FlexBox class="mt-[16px] w-full">
+					<div class="h-[1px] w-full bg-on-surface-dark/20" />
 					<FlexBox
 						intent="flexRowBetween"
 						gap="xsmall"
-						class="w-full min-h-[56px] max-h-[56px] mt-[8px] px-[24px]"
-					>
+						class="mt-[8px] max-h-[56px] min-h-[56px] w-full px-[24px]">
 						{#if $modalStore.actions.secondary !== null}
-							<FlexBox intent="flexRowCenter" class="w-full">
+							<FlexBox
+								intent="flexRowCenter"
+								class="w-full">
 								<Button
 									intent="unstyled"
 									size="large"
@@ -49,14 +64,16 @@
 											closeModal();
 										}
 									}}
-									class="text-secondary"
-								>
+									class="text-primary">
 									{$modalStore.actions.secondary.label}
 								</Button>
 							</FlexBox>
-							<div class="w-[2px] min-h-[56px] max-h-[56px] bg-on-surface-dark/50" />
+							<div
+								class="max-h-[56px] min-h-[56px] w-[1px] bg-on-surface-dark/20" />
 						{/if}
-						<FlexBox intent="flexRowCenter" class="w-full">
+						<FlexBox
+							intent="flexRowCenter"
+							class="w-full">
 							<Button
 								intent="unstyled"
 								size="large"
@@ -68,8 +85,7 @@
 										closeModal();
 									}
 								}}
-								class="text-secondary"
-							>
+								class="text-primary">
 								{$modalStore.actions.primary?.label}
 							</Button>
 						</FlexBox>

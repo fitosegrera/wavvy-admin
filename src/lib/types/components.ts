@@ -11,6 +11,16 @@ export interface TabsInterface {
 	onClick: (item: string) => void;
 }
 
+// SIDEBAR
+
+export interface SideBarInterface {
+	name: string;
+	component: any;
+	icon: string;
+	selected: boolean;
+	onClick: (item: string) => void;
+}
+
 // MODAL
 export interface ModalActionType {
 	label: string;

@@ -9,7 +9,8 @@
 				'cols-3': ['grid-cols-3'],
 				'cols-4': ['grid-cols-4'],
 				'cols-5': ['grid-cols-5'],
-				'cols-6': ['grid-cols-6']
+				'cols-6': ['grid-cols-6'],
+				'cols-7': ['grid-cols-7']
 			},
 			px: {
 				none: [''],
@@ -33,7 +34,14 @@
 	});
 
 	interface $$Props extends VariantProps<typeof container> {
-		intent?: 'cols-1' | 'cols-2' | 'cols-3' | 'cols-4' | 'cols-5' | 'cols-6';
+		intent?:
+			| 'cols-1'
+			| 'cols-2'
+			| 'cols-3'
+			| 'cols-4'
+			| 'cols-5'
+			| 'cols-6'
+			| 'cols-7';
 		px?: 'small' | 'medium' | 'large' | 'none';
 		py?: 'small' | 'medium' | 'large' | 'none';
 		gap?: 'small' | 'medium' | 'large' | 'none';
@@ -46,6 +54,8 @@
 	export let py: $$Props['py'] = 'none';
 </script>
 
-<div {...$$props} class={container({ intent, gap, px, py, class: $$props.class })}>
+<div
+	{...$$props}
+	class={container({ intent, gap, px, py, class: $$props.class })}>
 	<slot />
 </div>

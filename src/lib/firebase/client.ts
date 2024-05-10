@@ -7,9 +7,14 @@ import {
 	PUBLIC_FIREBASE_STORAGE_BUCKET
 } from '$env/static/public';
 import { initializeApp } from 'firebase/app';
-import { browserSessionPersistence, getAuth, setPersistence } from 'firebase/auth';
+import {
+	browserSessionPersistence,
+	getAuth,
+	setPersistence
+} from 'firebase/auth';
 import 'firebase/compat/messaging';
 import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 
 const firebaseConfig = {
 	apiKey: PUBLIC_FIREBASE_API_KEY,
@@ -24,5 +29,6 @@ const app = initializeApp(firebaseConfig, 'CLIENT');
 const auth = getAuth(app);
 setPersistence(auth, browserSessionPersistence);
 const db = getFirestore(app);
+const functions = getFunctions(app);
 
-export { auth, db, firebaseConfig };
+export { auth, db, firebaseConfig, functions };

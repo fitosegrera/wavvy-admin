@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
+	darkMode: 'class',
 	theme: {
 		extend: {
 			colors: {
@@ -17,9 +18,9 @@ export default {
 					light: '#d78567'
 				},
 				surface: {
-					DEFAULT: '#ffffff',
-					dark: '#dedede',
-					light: '#043a3b'
+					DEFAULT: '#161b22',
+					dark: '#0d1117',
+					light: '#484f58'
 				},
 				status: {
 					success: '#33c6a9',
@@ -44,8 +45,8 @@ export default {
 						light: '#ffffff'
 					},
 					surface: {
-						DEFAULT: '#023535',
-						dark: '#bbbbbb',
+						DEFAULT: '#f0f6fc',
+						dark: '#c9d1d9',
 						light: '#ffffff'
 					},
 					status: {

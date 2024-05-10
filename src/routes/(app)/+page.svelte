@@ -2,18 +2,17 @@
 	import {
 		FlexBox,
 		OrdersPage,
-		PrivacyPolicyPage,
 		StationsPage,
-		Tabs,
-		TermsAndConditionsPage,
+		SystemVariablesPage,
 		UsersPage,
-		UtilitiesPage
+		SideBar
 	} from '$lib/components';
-	import type { TabsInterface } from '$lib/types/components';
+	import type { SideBarInterface } from '$lib/types/components';
 
-	const items: TabsInterface[] = [
+	const items: SideBarInterface[] = [
 		{
 			name: 'Stations',
+			icon: 'solar:station-linear',
 			component: StationsPage,
 			selected: true,
 			onClick: (name: string) => {
@@ -22,6 +21,7 @@
 		},
 		{
 			name: 'Users',
+			icon: 'ph:users',
 			component: UsersPage,
 			selected: false,
 			onClick: (name: string) => {
@@ -30,6 +30,7 @@
 		},
 		{
 			name: 'Orders',
+			icon: 'icon-park-outline:order',
 			component: OrdersPage,
 			selected: false,
 			onClick: (name: string) => {
@@ -37,24 +38,9 @@
 			}
 		},
 		{
-			name: 'Terms And Conditions',
-			component: TermsAndConditionsPage,
-			selected: false,
-			onClick: (name: string) => {
-				handleItems(name);
-			}
-		},
-		{
-			name: 'Privacy Policy',
-			component: PrivacyPolicyPage,
-			selected: false,
-			onClick: (name: string) => {
-				handleItems(name);
-			}
-		},
-		{
-			name: 'Utilities',
-			component: UtilitiesPage,
+			name: 'System Variables',
+			icon: 'tdesign:system-setting',
+			component: SystemVariablesPage,
 			selected: false,
 			onClick: (name: string) => {
 				handleItems(name);
@@ -74,8 +60,8 @@
 </script>
 
 <FlexBox
-	intent="flexColTop"
+	intent="unstyled"
 	gap="large"
-	class="w-full">
-	<Tabs {items} />
+	class="flex w-full items-start justify-start">
+	<SideBar {items} />
 </FlexBox>

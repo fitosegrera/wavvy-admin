@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Timestamp } from 'firebase/firestore';
 
-export type ItemState = 'available' | 'reserved' | 'rented' | 'unavailable' | null;
+export type ItemState =
+	| 'available'
+	| 'reserved'
+	| 'rented'
+	| 'unavailable'
+	| null;
 
 export interface ItemInterface {
 	id: number;
@@ -23,7 +29,7 @@ export interface OrderInterface {
 	oid: string | null;
 	duration: number | null;
 	startTime: Timestamp | null;
-	total: number | null;
+	payment: any;
 }
 
 export type InventoryKey = '1' | '2' | '3' | '4';

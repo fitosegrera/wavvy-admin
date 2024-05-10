@@ -192,13 +192,47 @@
 			px="medium"
 			py="small"
 			gap="small"
-			class={classNames('w-full rounded-lg border-2 border-status-disabled')}>
-			<Text
-				intent="h6"
-				variant="dim"
-				class="font-medium">
-				{station.name}
-			</Text>
+			class={classNames(
+				'w-full border border-on-surface-dark/30 bg-surface',
+				isOpen ? 'rounded-t-lg' : 'rounded-lg'
+			)}>
+			<FlexBox
+				intent="flexRowLeft"
+				gap="medium">
+				<Text
+					intent="h6"
+					variant="dim"
+					class="min-w-fit font-medium">
+					{station.name}
+				</Text>
+				{#if station.status === 'online'}
+					<FlexBox
+						intent="flexRowLeft"
+						gap="xsmall"
+						class="max-w-fit">
+						<label
+							for="hourlyRate"
+							class="min-w-fit text-on-surface-dark">
+							Hourly Rate
+						</label>
+						<input
+							bind:value={hourlyRate}
+							type="text"
+							name="hourlyRate"
+							class="w-[80px] bg-transparent" />
+						<label
+							for="discountRate"
+							class="min-w-fit text-on-surface-dark">
+							Discount Rate
+						</label>
+						<input
+							bind:value={discountRate}
+							type="text"
+							name="discountRate"
+							class="w-[80px] bg-transparent" />
+					</FlexBox>
+				{/if}
+			</FlexBox>
 			<FlexBox
 				intent="flexRowCenter"
 				gap="xsmall">
@@ -225,74 +259,83 @@
 				duration: 300,
 				easing: quintOut,
 				axis: 'y'
-			}}>
+			}}
+			class="">
 			<FlexBox
 				intent="flexColLeft"
-				px="medium"
-				py="medium"
-				class="w-full border-2 border-surface-dark/80">
+				class="w-full">
 				<FlexBox
 					intent="flexColLeft"
 					class="w-full">
-					<Text
-						intent="p1"
-						class="text-on-surface/70">
-						<span class="font-bold">Station:</span>
-						{station.name}
-					</Text>
-					<Text
-						intent="p1"
-						class="text-on-surface/70">
-						<span class="font-bold">Status:</span>
-						{station.status}
-					</Text>
-					<Grid
-						intent="cols-4"
-						gap="medium"
-						class="w-full">
+					<FlexBox
+						intent="flexColLeft"
+						gap="none"
+						class="w-full border border-on-surface-dark/30">
 						{#each $realtimeStation?.inventory as item (item.id)}
 							<FlexBox
-								intent="flexColLeft"
-								class="w-full"
-								py="small">
-								<Text
-									intent="p1"
-									class="font-bold text-on-surface/70">
-									Paddle {item.id}
-								</Text>
-								<Text
-									intent="p1"
-									class="text-on-surface/70">
-									<span class="font-bold">Name:</span>
-									{item.name}
-								</Text>
-								<Text
-									intent="p1"
-									class="text-on-surface/70">
-									<span class="font-bold">Current order:</span>
-									{#if item.currentOrder}
-										{#if showCurrentOrder}
-											<CurrentOrderOverlay
-												{item}
-												onClose={() => {
-													showCurrentOrder = false;
-												}} />
-										{:else}
-											<Button
-												intent="text"
-												class={classNames(
-													station.status === 'online'
-														? 'text-primary'
-														: 'text-status-error'
-												)}
-												onClick={station.onClick}>
-												Show
-											</Button>
-										{/if}
-									{:else}
-										None
-									{/if}
-								</Text>
+								intent="flexRowBetween"
+								gap="small"
+								px="small"
+								class={classNames(
+									'w-full border-b border-b-on-surface-dark/30'
+								)}>
+								<FlexBox
+									intent="flexColLeft"
+									class="">
+									<FlexBox
+										intent="unstyled"
+										gap="small"
+										class="flex w-full items-start justify-start"
+										py="small">
+										<Icon
+											icon="material-symbols:wifi-lock-outline-sharp"
+											width="24px"
+											height="24px"
+											class="text-on-surface-dark/70" />
+										<FlexBox intent="flexColLeft">
+											<FlexBox intent="flexRowLeft">
+												<Text
+													intent="p1"
+													class="font-bold text-on-surface/70">
+													Paddle {item.id} / {item.name}
+												</Text>
+												<Text
+													intent="p1"
+													class="font-bold text-on-surface">
+													{item.state}
+												</Text>
+											</FlexBox>
+											<Text
+												intent="p1"
+												class="text-on-surface/70">
+												<span class="font-bold">Current order:</span>
+												{#if item.currentOrder}
+													{#if showCurrentOrder}
+														<CurrentOrderOverlay
+															{item}
+															onClose={() => {
+																showCurrentOrder = false;
+															}} />
+													{:else}
+														<Button
+															intent="text"
+															class={classNames(
+																station.status === 'online'
+																	? 'text-primary'
+																	: 'text-status-error'
+															)}
+															onClick={station.onClick}>
+															Show
+														</Button>
+													{/if}
+												{:else}
+													None
+												{/if}
+											</Text>
+										</FlexBox>
+									</FlexBox>
+								</FlexBox>
+
 								<FlexBox
 									intent="flexRowLeft"
 									py="xsmall"
@@ -300,7 +343,7 @@
 									class="">
 									<Button
 										intent="unstyled"
-										class="rounded-none border-2 border-secondary px-[6px] py-[2px] text-secondary"
+										class="rounded-none bg-surface px-[12px] py-[8px] text-on-surface-dark/80"
 										onClick={() => handleUnlock('p' + item.id)}>
 										{#if unlockLoading['p' + item.id]}
 											<FlexBox intent="flexRowCenter">
@@ -315,8 +358,8 @@
 								</FlexBox>
 							</FlexBox>
 						{/each}
-					</Grid>
-					<FlexBox
+					</FlexBox>
+					<!-- <FlexBox
 						intent="flexRowBetween"
 						gap="xsmall"
 						class="mt-[16px] w-full">
@@ -342,7 +385,7 @@
 								name="discountRate"
 								class="w-full rounded-md bg-surface-dark px-[16px] py-[8px]" />
 						</FlexBox>
-					</FlexBox>
+					</FlexBox> -->
 					<FlexBox
 						intent="flexRowRight"
 						gap="medium"
@@ -350,7 +393,7 @@
 						<Button
 							intent="text"
 							onClick={handlePing}
-							class="text-secondary">
+							class="">
 							{#if pingLoading}
 								<FlexBox intent="flexRowCenter">
 									<Icon

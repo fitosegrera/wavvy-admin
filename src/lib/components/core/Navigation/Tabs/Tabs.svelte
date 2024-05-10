@@ -13,14 +13,17 @@
 </script>
 
 <FlexBox
-	intent="flexRowCenter"
-	gap="small"
+	intent="flexRowLeft"
 	class="h-full w-full">
-	{#each items as item}
+	{#each items as item, index}
 		<button
 			class={classNames(
-				item.selected ? 'bg-secondary' : 'bg-secondary-dark/80',
-				'h-full min-h-[48px] w-full max-w-[140px] cursor-pointer rounded-t-lg px-[16px] text-on-secondary'
+				item.selected
+					? 'bg-primary'
+					: 'border border-on-surface-dark/30 bg-transparent',
+				index === 0 && 'rounded-l-lg',
+				index === items.length - 1 && 'rounded-r-lg',
+				'h-full min-h-[48px] w-full max-w-[140px] cursor-pointer px-[16px]'
 			)}
 			title={item.name}
 			on:click={() => {
@@ -28,7 +31,7 @@
 				loadPage(item);
 			}}>
 			<Text
-				variant="inverted"
+				variant={item.selected ? 'inverted' : 'dim'}
 				class="truncate">
 				{item.name}
 			</Text>

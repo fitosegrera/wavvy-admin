@@ -10,11 +10,11 @@
 	px="large"
 	py="medium"
 	intent="flexRowBetween"
-	class="border">
+	class="bg-surface">
 	<Logo />
 	<Button
 		intent="text"
-		class="text-secondary"
+		class=" text-on-surface"
 		onClick={() => {
 			if ($user) {
 				signOut(auth)

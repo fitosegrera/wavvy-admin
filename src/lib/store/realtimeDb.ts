@@ -6,7 +6,6 @@ import type {
 	OrderInterface,
 	StationInterface
 } from '$lib/types/orders';
-import type { MarketingInterface } from '$lib/types/station';
 import { collection, doc, onSnapshot, query } from 'firebase/firestore';
 import { get, writable } from 'svelte/store';
 
@@ -15,26 +14,24 @@ export const totalSalesStore = writable<number>(0);
 
 interface StationStoreInterface {
 	inventory: ItemInterface[];
-	marketing: MarketingInterface;
 }
 
 const inventoryStore = () => {
 	let unsubscribe: any;
 	isLoading.set(true);
-	const { subscribe } = writable<StationStoreInterface>({}, (set) => {
+	const { subscribe } = writable<StationStoreInterface | null>(null, (set) => {
 		const docRef = doc(db, 'station', get(stationId) as string);
 		unsubscribe = onSnapshot(docRef, (snapshot) => {
 			const inventory: ItemInterface[] = [];
 			const sationData = snapshot.data() as StationInterface;
-			const marketing: MarketingInterface =
-				sationData.marketing as MarketingInterface;
+
 			Object.keys(sationData.inventory).forEach(
 				(itemKey: keyof InventoryInterface) => {
 					inventory.push(sationData.inventory[itemKey] as ItemInterface);
 				}
 			);
 			// Update this store
-			set({ inventory, marketing });
+			set({ inventory });
 			isLoading.set(false);
 			// Update the local station store
 		});
@@ -56,8 +53,9 @@ const ordersStore = () => {
 			let totalSales: number = 0;
 			snapshot.forEach((doc) => {
 				orders.push(doc.data() as OrderInterface);
-				if (typeof doc.data().total === 'number')
-					totalSales += doc.data().total;
+				console.log(doc.data());
+				if (doc.data().payment)
+					totalSales += doc.data().payment.amountInCents / 100;
 			});
 			// Update the total sales store
 			totalSalesStore.set(totalSales);
@@ -72,25 +70,11 @@ const ordersStore = () => {
 	};
 };
 
-const timersStore = () => {
-	let unsubscribe: any;
-
-	const { subscribe } = writable<number>(0, (set) => {
-		const docRef = doc(db, 'utils', 'timers');
-		unsubscribe = onSnapshot(docRef, (snapshot) => {
-			const reservationTimer: number = snapshot?.data()?.reservation;
-			// Update this store
-			set(reservationTimer);
-		});
-
-		return () => unsubscribe();
-	});
-	return {
-		subscribe
-	};
-};
+/*
+const marketing: MarketingInterface =
+				sationData.marketing as MarketingInterface;
+*/
 
 export const stationId = writable<string | null>(null);
 export const realtimeStation = inventoryStore();
 export const realtimeOrders = ordersStore();
-export const realtimeTimers = timersStore();

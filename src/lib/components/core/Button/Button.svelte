@@ -7,8 +7,8 @@
 			intent: {
 				unstyled: [''],
 				primary: [
-					'text-on-secondary-light',
-					'bg-secondary',
+					'text-on-priamary-light',
+					'bg-primary',
 					'border-none',
 					'transition-all',
 					'duration-300',
@@ -33,9 +33,21 @@
 				icon: ['text-primary', 'bg-transparent', 'border-none']
 			},
 			size: {
-				small: $$props.intent !== 'text' && ['text-[14px]', 'px-[12px]', 'py-[8px]'],
-				medium: $$props.intent !== 'text' && ['text-[16px]', 'px-[24px]', 'py-[12px]'],
-				large: $$props.intent !== 'text' && ['text-[16px]', 'px-[32px]', 'py-[12px]']
+				small: $$props.intent !== 'text' && [
+					'text-[14px]',
+					'px-[12px]',
+					'py-[8px]'
+				],
+				medium: $$props.intent !== 'text' && [
+					'text-[16px]',
+					'px-[24px]',
+					'py-[12px]'
+				],
+				large: $$props.intent !== 'text' && [
+					'text-[16px]',
+					'px-[32px]',
+					'py-[12px]'
+				]
 			},
 			fullWidth: {
 				true: 'w-full',
@@ -63,8 +75,7 @@
 	class={button({ intent, size, fullWidth, class: $$props.class })}
 	on:click={() => {
 		$$props.onClick && $$props.onClick();
-	}}
->
+	}}>
 	<slot />
 </button>
 

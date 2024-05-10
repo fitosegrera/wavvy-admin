@@ -7,7 +7,7 @@
 
 @layer components {
 	.mobile-width {
-		@apply w-full sm:max-w-[640px] md:max-w-[920px] mx-auto;
+		@apply mx-auto w-full sm:max-w-[640px] md:max-w-[920px];
 	}
 }
 
@@ -48,4 +48,10 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 	background: theme('colors.primary.DEFAULT');
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+	box-shadow: 0 0 0 1000px theme('colors.surface.dark') inset;
+	-webkit-text-fill-color: #cecece;
 }

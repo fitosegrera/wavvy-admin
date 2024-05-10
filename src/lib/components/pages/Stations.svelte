@@ -54,7 +54,7 @@
 	<FlexBox
 		intent="flexRowLeft"
 		py="medium"
-		class="mb-[24px] w-full">
+		class="w-full">
 		<Text intent="h4">Stations</Text>
 	</FlexBox>
 	<StationAccordion

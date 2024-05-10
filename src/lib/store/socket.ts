@@ -2,6 +2,7 @@ import { browser } from '$app/environment';
 import * as io from 'socket.io-client';
 import { writable } from 'svelte/store';
 import type { MessageInterface } from '$lib/types/network';
+import { PUBLIC_SOCKET_SERVER_URL } from '$env/static/public';
 
 let socket: io.Socket;
 let connected = false;
@@ -15,7 +16,7 @@ const messageStore = writable<MessageInterface>({
 
 const connect = () => {
 	if (browser) {
-		socket = io.connect('https://locks.wavvysup.com');
+		socket = io.connect(PUBLIC_SOCKET_SERVER_URL);
 
 		// Connection opened
 		socket.on('connect', () => {
